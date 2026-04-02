@@ -2,8 +2,15 @@
 
 ## 快速安装
 只需要下载`monitor_and_kill.py`文件即可，其他不需要下载。
-最保守的话，可以使用reforge uv虚拟环境里面的python.exe
-打开pwsh，粘贴以下命令
+
+**环境要求**：本工具需要使用 **Python uv 虚拟环境**，Conda 环境不支持。
+
+**适用场景**：
+- **大规模运行**：此工具适合需要长期监控和自动重启的大规模部署场景
+- **小规模使用**：如果只是偶尔运行，建议直接使用秋叶启动器（更轻量、更简便）
+
+### 使用 uv 虚拟环境的示例
+打开 pwsh，粘贴以下命令
 
 ```powershell
 C:\stable-diffusion-webui-reForge\venv\Scripts\python.exe "C:\个人数据\pythonCode\测试taskkill\monitor_and_kill.py"
