@@ -148,6 +148,8 @@ def check_and_restart_if_needed(pwsh_pid, monitor_folder, last_file_count, no_ch
         time.sleep(10)
         print(f"[{get_timestamp()}] [*] 重启WebUI...")
         pwsh_pid = start_webui()
+        print(f"[{get_timestamp()}] [*] 新启动WebUI，延迟120秒后开始文件监控...")
+        time.sleep(120)
         no_change_count = 0  # 重置计数
         last_file_count = get_file_count(monitor_folder)  # 重新初始化文件数
     
@@ -165,14 +167,22 @@ def monitor():
     if cached_pid and pid_exists(cached_pid):
         print(f"[{get_timestamp()}] [✓] 发现缓存PID: {cached_pid}，进程仍存在，继续监控")
         pwsh_pid = cached_pid
+        need_delay = False  # 缓存进程无需延迟
     else:
         print(f"[{get_timestamp()}] [*] 无有效缓存或进程已结束，启动新WebUI")
         pwsh_pid = start_webui()
+        need_delay = True  # 新启动的进程需要延迟
     
     # 初始化文件计数
     monitor_folder = get_monitor_folder()
-    last_file_count = get_file_count(monitor_folder)
     no_change_count = 0  # 无变化计数器
+    
+    # 如果是新启动的进程，延迟2分钟后才开始计时
+    if need_delay:
+        print(f"[{get_timestamp()}] [*] 新启动WebUI，延迟120秒后开始文件监控...")
+        time.sleep(120)
+    
+    last_file_count = get_file_count(monitor_folder)
     
     print(f"[{get_timestamp()}] [*] 监控文件夹: {monitor_folder}")
     print(f"[{get_timestamp()}] [*] 初始文件数: {last_file_count}")
@@ -187,6 +197,8 @@ def monitor():
             if not pid_exists(pwsh_pid):
                 print(f"[{get_timestamp()}] [!] 进程 {pwsh_pid} 已结束，重启WebUI")
                 pwsh_pid = start_webui()
+                print(f"[{get_timestamp()}] [*] 新启动WebUI，延迟120秒后开始文件监控...")
+                time.sleep(120)
                 last_file_count = get_file_count(monitor_folder)
                 no_change_count = 0  # 重置无变化计数
                 continue
