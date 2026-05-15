@@ -129,11 +129,12 @@ def check_file_status(monitor_folder, last_file_count, no_change_count):
     current_file_count = get_file_count(monitor_folder)
     
     if current_file_count != last_file_count:
-        print(f"[{get_timestamp()}] [✓] 文件数变化: {last_file_count} -> {current_file_count} (无变化计数重置为0)")
+        # print(f"[{get_timestamp()}] [✓] 文件数变化: {last_file_count} -> {current_file_count} (无变化计数重置为0)")
+        print(f"[{get_timestamp()}] [✓] 文件数变化: {last_file_count} -> {current_file_count} 生图中√")
         return current_file_count, 0  # 有变化，重置计数
     else:
         no_change_count += 1
-        print(f"[{get_timestamp()}] [!] 文件数未变化: {current_file_count} 个文件 (连续无变化: {no_change_count}/{MAX_NO_CHANGE_COUNT})")
+        print(f"[{get_timestamp()}] [!] 文件数未变化: {current_file_count} 个文件 (连续无变化: {no_change_count}/{MAX_NO_CHANGE_COUNT})×")
         return last_file_count, no_change_count  # 无变化，计数+1
 
 def check_and_restart_if_needed(pwsh_pid, monitor_folder, last_file_count, no_change_count):
